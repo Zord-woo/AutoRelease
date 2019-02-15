@@ -1,14 +1,28 @@
 ---
-rmp_custom_specify:
- - gcc
+# yum源目录
+yum_repository_directory: "/usr/share/nginx/html/yum"
 
-rpm_must_needed:
- - vim
- - git
- - python
+# pip源目录
+pip_repository_directory: "/usr/share/nginx/html/pip"
 
-wheel_custom_specify:
- - 
+# 构建环境所需的Python软件包
+requirements:
+  - docker-py>=1.8.1
+  - six>=1.9.0
 
-wheel_must_needed:
- - 
+# 用户自定义安装的Python软件包
+custom_requirements:
+  -
+
+# 构建环境所需的软件包
+packages:
+  - nginx
+  - docker-engine
+  - gcc
+
+# 用户自定义安装的软件包
+custom_packages:
+  - tcpdump
+  - vim
+  - git
+

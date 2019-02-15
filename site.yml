@@ -1,6 +1,6 @@
 ---
-- name: apply role repository
-  hosts: yum
+- name: Apply role repository
+  hosts: all
   roles: 
     - role: repository
       

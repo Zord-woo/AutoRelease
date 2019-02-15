@@ -1,10 +1,32 @@
 ---
+# 备份主机的yum源目录
+- name: Backup host repository
 
-#- name: create rpm packages
-#  file: 
-#    path: /root/packages.txt
-#    state: touch
+# 重新配置主机的yum源目录，将files里的repo拷贝到yum源目录，后面还可能要安装openstack源，这个后面再做
+- name: Reconfigure host repository
 
-#- name: write value to packages
+# 安装软件源构建工具
+- name: Install the local yum repository builder
+  yum:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - nginx
+    - createrepo
+    - python-pip
+    - epel-release
+  notify:
+    - Restart nginx service
 
-- name: create requirements
+- name: Install the local pip repository builder
+  pip:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - pip2pi
+
+# 检测本地源目录是否存在
+- name: Ensuring local repository directories exist
+  with_items:
+    - yum_repository_directory
+    - pip_repository_directory

@@ -1,0 +1,26 @@
+---
+# 本地源备份和配置放到config.yml来做，后期优化可以跳过下载已存在的软件包,这边还需要disable本地的myrepo
+- name: Download packages for the local yum repository
+  shell: yum install -y --downloadonly --downloaddir={{ yum_repository_directory }} {{ item }}
+  with_items:
+    - {{ packages }}
+    - {{ custom_packages }}
+
+- name: Download packages for the local pip repository
+  shell: yum install -y --downloadonly --downloaddir={{ yum_repository_directory }} {{ item }}
+  with_items:
+    - {{ requirements }}
+    - {{ custom_requirements }}
+
+# 为源创建软件包索引
+- name: Create a package index for the local repository
+  shell: "{{ item.command item.directory }}"
+  with_items:
+    - { cmd : 'createrepo', dir : {{ yum_repository_directory }} }
+    - { cmd : 'dir2pi', dir : {{ pip_repository_directory }} }
+  notify:
+    - Restart nginx service
+
+# 拷贝my.repo
+- name: Generate the local yum repository
+  template:
