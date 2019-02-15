@@ -1,0 +1,14 @@
+---
+rmp_custom_specify:
+ - gcc
+
+rpm_must_needed:
+ - vim
+ - git
+ - python
+
+wheel_custom_specify:
+ - 
+
+wheel_must_needed:
+ - 

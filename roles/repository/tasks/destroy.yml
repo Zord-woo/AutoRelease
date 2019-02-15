@@ -1,0 +1,52 @@
+---
+- name: delete local repo
+  shell: rm -rf /etc/yum.repos.d/*
+  notify: 
+    - stop httpd service
+
+- name: remove nginx and createrepo service
+  yum:
+    name: "{{ packages }}"
+    state: absent
+  vars:
+    packages:
+    - nginx
+    - createrepo
+ 
+- name: resume yum.repo
+  copy: src=/etc/yum.bak/  dest=/etc/yum.repos.d/
+
+- name: remove repo backup
+  file: 
+    path: /etc/yum.bak/
+    state: absent
+
+
+- name: remove pip local packages
+  file:
+    path: /var/www/packages
+    state: absent
+  notify:
+    - stop httpd service
+
+- name: remove vhost.conf
+  file:
+    path: /etc/nginx/conf.d/vhost.conf
+    state: absent
+
+- name: remove pip2pi
+  pip:
+    name: pip2pi
+    state: absent
+
+- name: remove 
+  yum:
+    name: "{{ rpms }}"
+    state: absent
+  vars:
+    rpms:
+      - python-pip
+      - httpd
+      - mysql-devel
+      - libffi-devel
+      - libpqxx-devel

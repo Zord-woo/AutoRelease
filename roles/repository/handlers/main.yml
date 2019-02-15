@@ -1,0 +1,12 @@
+---
+- name: restart nginx service
+  service: name=nginx state=restarted
+
+- name: restart nginx service
+  service: name=nginx state=stop
+
+#- name: restart httpd service
+#  service: name=httpd state=restarted
+
+#- name: stop httpd service
+#  service: name=httpd state=stopped

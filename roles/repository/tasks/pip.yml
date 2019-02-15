@@ -1,0 +1,36 @@
+---
+- name: install  service needed
+  yum:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+    - python-pip
+    - httpd
+    - mysql-devel
+    - libffi-devel
+    - libpqxx-devel
+
+- name: upgrade pip to latest
+  pip:
+    name: pip
+    state: latest
+
+- name: create dir packages
+  file:
+    path: /usr/share/www/packages
+    state: directory
+
+- name: create vhost.conf
+  template:
+    src: "{{ role_path }}/templates/vhost.conf.j2"
+    dest: "/etc/nginx/conf.d/vhost.conf"
+  notify: 
+    - restart nginx service
+
+- name: download packages in requirements
+  shell: pip wheel --timeout 120 --wheel-dir /usr/share/www/packages --find-links /usr/share/www/packages --build /tmp/openstack-builder --log /var/log/repo/repo_builder.log --requirement /root/requirements.txt
+
+- name: create index
+  shell: dir2pi /usr/share/www/packages
+

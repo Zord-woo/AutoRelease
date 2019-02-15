@@ -1,0 +1,10 @@
+---
+
+#- name: create rpm packages
+#  file: 
+#    path: /root/packages.txt
+#    state: touch
+
+#- name: write value to packages
+
+- name: create requirements
