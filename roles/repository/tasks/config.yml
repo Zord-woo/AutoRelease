@@ -1,9 +1,27 @@
 ---
 # 备份主机的yum源目录
+- name: Ensure yum.repos.d.bak exist
+  file:
+    path: /etc/yum.repos.d.bak/
+    state: directory
+
 - name: Backup host repository
+  copy: src=/etc/yum.repos.d/   dest=/etc/yum.repos.d.bak/
 
 # 重新配置主机的yum源目录，将files里的repo拷贝到yum源目录，后面还可能要安装openstack源，这个后面再做
 - name: Reconfigure host repository
+  copy:
+    src: "{{ role_path }}/files/{{ item }}"
+    dest: "/etc/yum.repos.d/"
+  with_items:
+    - CentOS-Base.repo
+    - nginx.repo
+    - docker.repo
+
+- name: Install epel-release
+  yum:
+    name: epel-release
+    state: latest
 
 # 安装软件源构建工具
 - name: Install the local yum repository builder
@@ -12,9 +30,11 @@
     state: latest
   with_items:
     - nginx
+    - gcc
     - createrepo
     - python-pip
-    - epel-release
+    - python-devel
+    - libevent-devel
   notify:
     - Restart nginx service
 
@@ -24,9 +44,13 @@
     state: latest
   with_items:
     - pip2pi
+    - wheel
 
 # 检测本地源目录是否存在
-- name: Ensuring local repository directories exist
+- name: Ensure local repository directories exist
+  file: 
+    path: "{{ item }}"
+    state: directory
   with_items:
-    - yum_repository_directory
-    - pip_repository_directory
+    - "{{ yum_repository_directory }}"
+    - "{{ pip_repository_directory }}"

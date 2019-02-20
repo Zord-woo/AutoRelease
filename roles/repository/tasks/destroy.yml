@@ -1,18 +1,21 @@
 ---
-- name: Remove vhost.conf
-  file:
-    path: /etc/nginx/conf.d/vhost.conf
-    state: absent
-
 - name: Remove repository directory
   file:
     path: "{{ item }}"
     state: absent
   with_items:
-    - yum_repository_directory
-    - pip_repository_directory
+    - "{{ yum_repository_directory }}"
+    - "{{ pip_repository_directory }}"
 
 # 移除软件包会自动停止服务，不需要自己去停止，而且这边直接用with_items不用定义变量
+- name: Remove the local pip repository builder
+  pip:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - pip2pi
+    - wheel
+
 - name: Remove the local yum repository builder
   yum:
     name: "{{ item }}"
@@ -24,13 +27,6 @@
     - mysql-devel
     - libffi-devel
     - libpqxx-devel
-
-- name: Remove the local pip repository builder
-  pip:
-    name: "{{ item }}"
-    state: absent
-  with_items:
-    - pip2pi
 
 - name: Resume host repository
   command: "{{ item }}"
