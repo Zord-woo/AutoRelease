@@ -1,0 +1,30 @@
+---
+# Install docker-engine
+- name: Install docker-engine
+  yum:
+    name: docker-engine
+    state: installed
+
+# 创建 docker.service.d 目录
+- name: Ensure docker.service.d exist
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ docker_service_directory }}"
+
+# 修改docker服务启动项
+- name: Modify kolla.conf
+  template:
+    src: "kolla.conf.j2" 
+    dest: "{{ docker_service_directory }}/kolla.conf"
+  notify:
+    - Enabled and restart docker
+
+# 安装virtualenv 
+- name: Install virtualenv
+  pip:
+    name: virtualenv
+    state: present
+    extra_args: --index-url http://{{ inventory_hostname  }}/pip/simple --trusted-host {{ inventory_hostname }}
+

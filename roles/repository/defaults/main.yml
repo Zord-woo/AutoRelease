@@ -1,23 +1,26 @@
 ---
 # yum源目录
-yum_repository_directory: "/usr/share/nginx/html/yum"
+#yum_repository_directory: "/usr/share/nginx/html/yum"
 
 # pip源目录
-pip_repository_directory: "/usr/share/nginx/html/pip"
+#pip_repository_directory: "/usr/share/nginx/html/pip"
 
 # 构建环境所需的Python软件包
 requirements:
-  - gitdb>=0.6.4
-  - pycrypto>=2.6
-  - oslo.config>=3.22.0
-  - oslo.utils>=3.20.0
+  - pip>=19.0
+  - wheel>=0.30
+  - virtualenv>=16.0
+  - pbr==1.10.0
   - docker-py>=1.8.1
-  - six>=1.9.0
-  - GitPython>=1.0.1
-  - pbr>=2.0.0,!=2.1.0
-  - netaddr>=0.7.13,!=0.7.16
   - Jinja2>=2.8,!=2.9.0,!=2.9.1,!=2.9.2,!=2.9.3,!=2.9.4
+  - gitdb>=0.6.4
+  - GitPython>=1.0.1
+  - six>=1.9.0
+  - oslo.config>=3.14.0,!=3.18.0
+  - oslo.utils>=3.18.0
   - setuptools>=16.0,!=24.0.0,!=34.0.0,!=34.0.1,!=34.0.2,!=34.0.3,!=34.1.0,!=34.1.1,!=34.2.0,!=34.3.0,!=34.3.1,!=34.3.2
+  - pycrypto>=2.6
+  - netaddr>=0.7.13,!=0.7.16
 
 # 用户自定义安装的Python软件包
 #custom_requirements:
@@ -25,11 +28,12 @@ requirements:
 # 构建环境所需的软件包
 packages:
   - epel-release
-#  - docker-engine
+  - docker-engine
   - python-pip
   - nginx
   - vim
   - gcc
+  - git
 
 # 用户自定义安装的软件包
 #custom_packages:

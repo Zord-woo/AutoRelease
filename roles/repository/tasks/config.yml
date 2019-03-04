@@ -11,7 +11,7 @@
 # 重新配置主机的yum源目录，将files里的repo拷贝到yum源目录，后面还可能要安装openstack源，这个后面再做
 - name: Reconfigure host repository
   copy:
-    src: "{{ role_path }}/files/{{ item }}"
+    src: "{{ item }}"
     dest: "/etc/yum.repos.d/"
   with_items:
     - CentOS-Base.repo
@@ -31,6 +31,7 @@
   with_items:
     - nginx
     - gcc
+    - git
     - createrepo
     - python-pip
     - python-devel
@@ -40,11 +41,12 @@
 
 - name: Install the local pip repository builder
   pip:
-    name: "{{ item }}"
+    name: ['pip2pi', 'wheel', 'docker-py']
     state: latest
-  with_items:
-    - pip2pi
-    - wheel
+
+# 设置nginx 开机启动
+- name: Enable nginx service
+  service: name=nginx enabled=yes
 
 # 检测本地源目录是否存在
 - name: Ensure local repository directories exist

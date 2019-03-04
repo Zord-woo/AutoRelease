@@ -1,0 +1,6 @@
+---
+# docekr images type: binary or source
+docker_type: "binary"
+
+# docker images tag
+docker_tag: "1.0.8"

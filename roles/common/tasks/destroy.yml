@@ -1,0 +1,40 @@
+---
+# 停止并移除registry container
+- name: Remove registry container
+  docker:
+    name: registry
+    image: registry:2
+    state: absent
+
+# 删除registry 镜像
+- name: Delete registry image
+  docker_image:
+    name: registry:2
+    state: absent
+
+# 删除docker.service.d 服务配置和myenv虚拟环境
+- name: Remove  docker.service.d directory
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ env_directory }}"
+    - "{{ docker_service_directory }}"
+
+# 删除kolla项目目录
+#- name: Remove kolla directory
+#  file: 
+#    path: /root/kolla
+#    state: absent
+
+# 删除virtualenv
+- name: Remove virtualenv
+  pip:
+    name: virtualenv
+    state: absent
+
+# 删除docker-engine
+- name: Remove docker-engine
+  yum: 
+    name: docker-engine
+    state: absent

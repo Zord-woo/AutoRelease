@@ -10,11 +10,11 @@
 # 移除软件包会自动停止服务，不需要自己去停止，而且这边直接用with_items不用定义变量
 - name: Remove the local pip repository builder
   pip:
-    name: "{{ item }}"
+    name: ['pip2pi', 'wheel', 'docker-py']
     state: absent
-  with_items:
-    - pip2pi
-    - wheel
+#  with_items:
+#    - pip2pi
+#    - wheel
 
 - name: Remove the local yum repository builder
   yum:

@@ -1,0 +1,12 @@
+---
+# yum源目录
+yum_repository_directory: "/usr/share/nginx/html/yum"
+
+# pip源目录
+pip_repository_directory: "/usr/share/nginx/html/pip"
+
+# virtualenv目录
+env_directory: "/root/myenv"
+
+# docker.service.d 目录
+docker_service_directory: "/etc/systemd/system/docker.service.d"

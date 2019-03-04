@@ -2,5 +2,10 @@
 - name: Apply role repository
   hosts: all
   roles: 
-    - role: repository
-      
+#    - role: repository
+    - role: common     
+ 
+#- name: Apply role common
+#  hosts: all
+#  roles:
+#    - role: common     

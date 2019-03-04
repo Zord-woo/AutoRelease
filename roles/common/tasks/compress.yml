@@ -1,0 +1,6 @@
+---
+# 打包本地docker源目录
+- name: Compress local docker registry
+  archive:
+    path: /opt/registry/docker
+    dest: /root/centos-{{ docker_type }}-registry-ocata-{{ docker_tag }}.tar.gz
