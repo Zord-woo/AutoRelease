@@ -1,0 +1,8 @@
+---
+# build kolla image
+- name: Build kolla image
+  docker_image:
+    name: kolla:v1
+    path: /root/
+    state: build 
+

@@ -1,22 +1,22 @@
 ---
 # Pull registry image and run registry container
 - name: Pull registry and detach registry container
-  docker:
+  docker_container:
     name: registry
     image: "registry:2"
     detach: yes
     ports: "4000:5000"
     volumes: /opt/registry:/var/lib/registry
-    pull: always
+    pull: yes
     state: started
 
 # Before git clone kolla , ssh-key must be added to github
-- name: Git clone kolla from github
-  git:
-    repo: git@github.com:Zord-woo/kolla.git
-    dest: /root/kolla
-    version: nocsys/ocata
-    clone: yes
+#- name: Git clone kolla from github
+#  git:
+#    repo: git@github.com:Zord-woo/kolla.git
+#    dest: /root/kolla
+#    version: nocsys/ocata
+#    clone: yes
 
 # Install kolla to myenv
 - name: Install kolla-build

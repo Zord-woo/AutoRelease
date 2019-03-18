@@ -1,0 +1,6 @@
+---
+# 打包kolla images
+- name: Compress kolal image
+  docker_image:
+    name: kolla:v1
+    archive_path: /root/kolla.tar

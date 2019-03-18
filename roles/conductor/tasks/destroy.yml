@@ -1,0 +1,23 @@
+---
+# Remove kolla image
+- name: Delete kolla image
+  docker_image:
+    name: kolla:v1
+    state: absent
+
+# Remove kolla directory (include Dockerfile and nginx.repo)
+- name: Remove kolla directory
+  file: 
+    path: /root/kolla
+    state: absent
+
+# Remove kolla-ansible and kolla_packages in host
+- name: Remove kolla-ansible and kolla_packages
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "/root/kolla-ansible"
+    - "/root/kolla_packages"
+    - "/root/Dockerfile"
+    - "/root/nginx.repo"

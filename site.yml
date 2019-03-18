@@ -3,7 +3,8 @@
   hosts: all
   roles: 
 #    - role: repository
-    - role: common     
+#    - role: common     
+    - role: conductor
  
 #- name: Apply role common
 #  hosts: all

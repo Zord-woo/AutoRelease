@@ -1,10 +1,4 @@
 ---
-# Install docker-engine
-- name: Install docker-engine
-  yum:
-    name: docker-engine
-    state: installed
-
 # 创建 docker.service.d 目录
 - name: Ensure docker.service.d exist
   file:

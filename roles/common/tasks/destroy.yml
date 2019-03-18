@@ -1,7 +1,7 @@
 ---
 # 停止并移除registry container
 - name: Remove registry container
-  docker:
+  docker_container:
     name: registry
     image: registry:2
     state: absent
@@ -33,8 +33,3 @@
     name: virtualenv
     state: absent
 
-# 删除docker-engine
-- name: Remove docker-engine
-  yum: 
-    name: docker-engine
-    state: absent

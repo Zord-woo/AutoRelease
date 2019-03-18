@@ -21,6 +21,7 @@
     name: "{{ item }}"
     state: absent
   with_items:
+    - docker-engine
     - nginx
     - createrepo
     - python-pip
