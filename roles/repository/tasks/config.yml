@@ -26,17 +26,8 @@
 # 安装软件源构建工具
 - name: Install the local yum repository builder
   yum:
-    name: "{{ item }}"
+    name: ['nginx', 'gcc', 'git', 'docker-engine', 'createrepo', 'python-pip', 'python-devel', 'libevent-devel']
     state: latest
-  with_items:
-    - nginx
-    - gcc
-    - git
-    - docker-engine
-    - createrepo
-    - python-pip
-    - python-devel
-    - libevent-devel
   notify:
     - Restart nginx service
 

@@ -22,3 +22,10 @@
     state: present
     extra_args: --index-url http://{{ inventory_hostname  }}/pip/simple --trusted-host {{ inventory_hostname }}
 
+# Before git clone kolla , ssh-key must be added to github
+- name: Git clone kolla from github
+  git:
+    repo: git@github.com:Zord-woo/kolla.git
+    dest: /root/kolla
+    version: nocsys/ocata
+    clone: yes

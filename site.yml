@@ -4,7 +4,8 @@
   roles: 
 #    - role: repository
 #    - role: common     
-    - role: conductor
+#    - role: conductor
+    - role: kolla
  
 #- name: Apply role common
 #  hosts: all

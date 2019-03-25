@@ -9,17 +9,17 @@
     - "nginx.repo"
 
 # Git clone kolla-ansibel
-#- name: Git clone kolla-ansible from Github
-#  git:
-#    repo: git@github.com:Zord-woo/kolla-ansible.git
-#    dest: /root/kolla-ansible
-#    version: nocsys/ocata
-#    clone: yes
+- name: Git clone kolla-ansible from Github
+  git:
+    repo: git@github.com:Zord-woo/kolla-ansible.git
+    dest: /root/kolla-ansible
+    version: nocsys/ocata
+    clone: yes
 
 # Git clone kolla_packages
-#- name: Git clone kolla_packages from Github
-#  git:
-#    repo: git@github.com:Zord-woo/kolla_packages.git
-#    dest: /root/kolla_packages
-#    version: centos/327
-#    clone: yes
+- name: Git clone kolla_packages from Github
+  git:
+    repo: git@github.com:Zord-woo/kolla_packages.git
+    dest: /root/kolla_packages
+    version: centos/327
+    clone: yes

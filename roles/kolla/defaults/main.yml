@@ -1,0 +1,94 @@
+---
+# 是否编译所有镜像, yes or no
+build_all_images: "no"
+
+# 必须编译的镜像列表
+custom_images: 
+  - chrony
+  - heat
+  - cloudalert
+  - ovn-sb-db-server
+  - ovn-controller
+  - ovn-nb-db-server
+  - ovn-northd
+  - openvswitch-db-server
+  - ovn-base
+  - openvswitch-vswitchd
+  - nova-novncproxy
+  - neutron-metadata-agent-ovn
+  - openvswitch-base
+  - fluentd
+  - horizon
+  - kolla-toolbox
+  - nova-libvirt
+  - cloudview
+  - kafka
+  - kibana
+  - tgtd
+  - iscsid
+  - zookeeper
+  - elasticsearch
+  - middleware
+  - openjdk
+  - logstash
+  - nodejs
+  - apollo
+  - gather
+  - redis
+  - cron
+  - keepalived
+  - filebeat
+  - glance-api
+  - glance-registry
+  - glance-base
+  - haproxy
+  - rabbitmq
+  - mariadb
+  - memcached
+  - keystone-fernet
+  - keystone-ssh
+  - keystone
+  - barbican-keystone-listener
+  - keystone-base
+  - barbican-base
+  - neutron-server
+  - nova-compute
+  - neutron-lbaas-agent
+  - nova-api
+  - nova-compute-ironic
+  - nova-conductor
+  - neutron-vpnaas-agent
+  - neutron-metadata-agent
+  - nova-placement-api
+  - neutron-metering-agent
+  - nova-scheduler
+  - nova-ssh
+  - neutron-linuxbridge-agent
+  - nova-spicehtml5proxy
+  - neutron-l3-agent
+  - neutron-dhcp-agent
+  - nova-serialproxy
+  - nova-consoleauth
+  - nova-base
+  - neutron-openvswitch-agent
+  - neutron-base
+  - ceph-mds
+  - ceph-base
+  - cinder-backup
+  - cinder-api
+  - cinder-volume
+  - cinder-base
+  - openstack-base
+  - cephfs-fuse
+  - ceph-rgw
+  - base
+  - ceph-mon
+  - ceph-osd
+  - cinder-scheduler
+  - tempest
+
+# kolla-build namespace
+namespace: "nocsys"
+
+# # docker images tag
+docker_tag: "1.0.8"

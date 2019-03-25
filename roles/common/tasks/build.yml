@@ -10,14 +10,6 @@
     pull: yes
     state: started
 
-# Before git clone kolla , ssh-key must be added to github
-#- name: Git clone kolla from github
-#  git:
-#    repo: git@github.com:Zord-woo/kolla.git
-#    dest: /root/kolla
-#    version: nocsys/ocata
-#    clone: yes
-
 # Install kolla to myenv
 - name: Install kolla-build
   pip:

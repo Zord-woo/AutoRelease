@@ -1,0 +1,25 @@
+---
+# Pull centos:7 docker image
+- name: Pull centos docker image
+  docker_image:
+    name: centos:7
+
+# Retag centos:7 docker image
+- name: Retag centos:7 docker image
+  shell: docker tag centos:7 {{ inventory_hostname }}:4000/nocsys/centos:7
+
+# Push nocsys/centos:7 to local registry
+- name: Push centos:7 to local registry after retag
+  shell: docker push {{ inventory_hostname }}:4000/nocsys/centos:7
+
+# Build custom images
+- name: Build custom images
+  command: /root/myenv/bin/kolla-build {{ item }} --config-file=/etc/kolla/kolla-build.conf
+  when: build_all_images == 'no'
+  with_items: 
+    - "{{ custom_images }}"
+
+# Build all images
+- name: Build all images
+  command: /root/myenv/bin/kolla-build  --config-file=/etc/kolla/kolla-build.conf
+  when: build_all_images == 'yes'

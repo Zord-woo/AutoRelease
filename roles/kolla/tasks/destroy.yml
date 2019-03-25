@@ -1,0 +1,22 @@
+---
+# Remove images
+- name: Remove images
+  shell: docker rmi $(docker images | grep '{{ namespace }}' | awk '{print $1}')
+  
+# Remove kolla-build.conf
+- name: Remove kolla-build.conf
+  file: 
+    path: /etc/kolla/
+    state: absent
+
+# Pip uninstall tox
+- name: Uninstall tox
+  pip:
+    name: tox
+    state: absent
+
+# Remove /opt/registry/docker directory
+- name: Remove docker directory
+  file: 
+    path: /opt/registry/docker
+    state: absent
