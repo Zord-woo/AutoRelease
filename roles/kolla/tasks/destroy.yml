@@ -1,8 +1,14 @@
 ---
 # Remove images
 - name: Remove images
-  shell: docker rmi $(docker images | grep '{{ namespace }}' | awk '{print $1}')
+  shell: docker rmi $(docker images --format "{{.Repository}}:{{.Tag}}" | grep {{ namespace }})
   
+# Remove centos:7 image
+- name: Remove centos:7 image
+  docker_image:
+    name: centos:7
+    state: absent
+
 # Remove kolla-build.conf
 - name: Remove kolla-build.conf
   file: 

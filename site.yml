@@ -1,13 +1,9 @@
 ---
-- name: Apply role repository
-  hosts: all
-  roles: 
-#    - role: repository
-#    - role: common     
-#    - role: conductor
+- hosts: 127.0.0.1
+  connection: local
+  roles:
+    - role: conductor 
+      tags: ["conductor"]
+
     - role: kolla
- 
-#- name: Apply role common
-#  hosts: all
-#  roles:
-#    - role: common     
+      tags: ["kolla"]

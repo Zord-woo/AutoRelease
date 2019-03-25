@@ -1,0 +1,11 @@
+---
+- hosts: 127.0.0.1
+  connection: local
+  roles:
+    - block:
+      - role: repository
+        vars: step="config"
+
+      - role: repository
+        vars: step="build"
+      tags: ["repository"]

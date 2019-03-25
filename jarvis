@@ -1,0 +1,128 @@
+#!/bin/bash
+#
+# This script can be used to interact with jarvis via ansible.
+
+function find_base_dir {
+    local real_path=$(python -c "import os;print(os.path.realpath('$0'))")
+    local dir_name="$(dirname "$real_path")"
+    if [[ ${dir_name} == "/usr/bin" ]]; then
+    	BASEDIR=/usr/share/jarvis
+    elif [[ ${dir_name} == "/usr/local/bin" ]]; then
+    	BASEDIR=/usr/local/share/jarvis
+    else
+    	BASEDIR="${dir_name}"
+    fi
+}
+
+function process_cmd {
+    echo "$ACTION : $CMD"
+    $CMD
+    if [[ $? -ne 0 ]]; then
+        echo "Command failed $CMD"
+        exit 1
+    fi
+}
+
+function usage {
+    cat <<EOF
+Usage: $0 COMMAND [options]
+
+Options:
+    --configdir <config_path>          Specify path to directory with globals.yml
+    --help, -h                         Show this usage information
+    --extra, -e <ansible variables>    Set additional variables as key=value or YAML/JSON passed to ansible-playbook
+
+Commands:
+    bootstrap           Basic environment construction	
+    config		Configuring the build environment
+    build               Build docker containers
+    destroy             Destroy all containers
+EOF
+}
+
+
+SHORT_OPTS="he:c:"
+LONG_OPTS="help,extra:,configdir:,yes-i-really-really-mean-it"
+ARGS=$(getopt -o "${SHORT_OPTS}" -l "${LONG_OPTS}" --name "$0" -- "$@") || { usage >&2; exit 2; }
+
+eval set -- "$ARGS"
+
+find_base_dir
+
+PLAYBOOK="${BASEDIR}/site.yml"
+EXTRA_OPTS=${EXTRA_OPTS}
+CONFIG_DIR="/etc/jarvis"
+DANGER_CONFIRM=
+
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+
+    (--configdir|-c)
+            CONFIG_DIR="$2"
+            shift 2
+            ;;
+
+    (--yes-i-really-really-mean-it)
+            DANGER_CONFIRM="$1"
+            shift 1
+            ;;
+
+    (--extra|-e)
+            EXTRA_OPTS="$EXTRA_OPTS -e $2"
+            shift 2
+            ;;
+
+    (--help|-h)
+            usage
+            shift
+            exit 0
+            ;;
+
+    (--)
+            shift
+            break
+            ;;
+
+    (*)
+            echo "error"
+            exit 3
+            ;;
+esac
+done
+
+case "$1" in
+
+(bootstrap)
+        ACTION="Basic environment construction"
+        PLAYBOOK="${BASEDIR}/bootstrap.yml"
+        ;;
+(destroy)
+        ACTION="Destroy all containers"
+        PLAYBOOK="${BASEDIR}/destroy.yml"
+        if [[ "${DANGER_CONFIRM}" != "--yes-i-really-really-mean-it" ]]; then
+            cat << EOF
+WARNING:
+    This will PERMANENTLY DESTROY all built containers.
+    There is no way to recover from this action. To confirm, please add the following option:
+    --yes-i-really-really-mean-it
+EOF
+            exit 1
+        fi
+        ;;
+(config)
+        ACTION="Configuring the build environment"
+        EXTRA_OPTS="$EXTRA_OPTS -e step=config"
+        ;;
+(build)
+        ACTION="Build docker containers"
+        EXTRA_OPTS="$EXTRA_OPTS -e step=build"
+        ;;
+(*)     usage
+        exit 0
+        ;;
+esac
+
+CMD="ansible-playbook -e @${CONFIG_DIR}/globals.yml $EXTRA_OPTS $PLAYBOOK"
+echo "${CMD}"
+#process_cmd
+

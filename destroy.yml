@@ -1,0 +1,15 @@
+---
+- hosts: 127.0.0.1
+  connection: local
+  roles:
+    - block:
+      - role: conductor 
+        tags: ["conductor"]
+
+      - role: kolla
+        tags: ["kolla"]
+
+      - role: repository
+        tags: ["repository"]
+
+      vars: step="destroy"
