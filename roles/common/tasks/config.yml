@@ -12,8 +12,6 @@
   template:
     src: "kolla.conf.j2" 
     dest: "{{ docker_service_directory }}/kolla.conf"
-  notify:
-    - Enabled and restart docker
 
 - name: Enabled and restart docker
   service: name=docker enabled=yes state=reloaded
