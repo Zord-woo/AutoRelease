@@ -2,14 +2,17 @@
 - hosts: 127.0.0.1
   connection: local
   roles:
-    - block:
-      - role: conductor 
-        tags: ["conductor"]
+    - role: conductor
+      tags: ["conductor"]
+      vars: 
+        - step: "destroy"
 
-      - role: kolla
-        tags: ["kolla"]
+    - role: kolla
+      tags: ["kolla"]
+      vars: 
+        - step: "destroy"
 
-      - role: repository
-        tags: ["repository"]
-
-      vars: step="destroy"
+    - role: repository
+      tags: ["repository"]
+      vars: 
+        - step: "destroy"

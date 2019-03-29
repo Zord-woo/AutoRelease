@@ -25,7 +25,7 @@
 # Modify kolla-build.conf
 - name: Modify kolla-build.conf
   ini_file: 
-    dest: /etc/kolla/kola-build.conf
+    dest: /etc/kolla/kolla-build.conf
     section: "DEFAULT"
     option: "{{ item.option }}"
     value: "{{ item.value }}"
@@ -35,6 +35,6 @@
     - { option: 'push', value: 'true' }
     - { option: 'registry', value: '{{ inventory_hostname }}:4000' }
     - { option: 'install_type', value: 'binary' }
-    - { option: 'tag', value: '{{ tag }}' }
+    - { option: 'tag', value: '{{ docker_tag }}' }
     - { option: 'accelerate', value: 'true' }
     - { option: 'myrepo', value: 'http://192.168.200.111:9090' } 

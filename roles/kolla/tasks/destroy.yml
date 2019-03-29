@@ -1,7 +1,7 @@
 ---
 # Remove images
 - name: Remove images
-  shell: docker rmi $(docker images --format "{{.Repository}}:{{.Tag}}" | grep {{ namespace }})
+  shell: docker rmi $(docker images --format "{{'{'}}{{'{'}}.Repository{{'}'}}{{'}'}}:{{'{'}}{{'{'}}.Tag{{'}'}}{{'}'}}" | grep {{ namespace }})
   
 # Remove centos:7 image
 - name: Remove centos:7 image

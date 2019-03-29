@@ -124,5 +124,4 @@ esac
 
 CMD="ansible-playbook -e @${CONFIG_DIR}/globals.yml $EXTRA_OPTS $PLAYBOOK"
 echo "${CMD}"
-#process_cmd
-
+process_cmd

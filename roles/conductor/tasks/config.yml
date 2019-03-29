@@ -8,7 +8,7 @@
     - "Dockerfile"
     - "nginx.repo"
 
-# Git clone kolla-ansibel
+# Git clone kolla-ansible
 - name: Git clone kolla-ansible from Github
   git:
     repo: git@github.com:Zord-woo/kolla-ansible.git

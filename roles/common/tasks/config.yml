@@ -15,6 +15,9 @@
   notify:
     - Enabled and restart docker
 
+- name: Enabled and restart docker
+  service: name=docker enabled=yes state=reloaded
+
 # 安装virtualenv 
 - name: Install virtualenv
   pip:
