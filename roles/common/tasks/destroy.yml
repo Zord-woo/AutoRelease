@@ -22,10 +22,15 @@
     - "{{ docker_service_directory }}"
 
 # 删除kolla项目目录
-#- name: Remove kolla directory
-#  file: 
-#    path: /root/kolla
-#    state: absent
+- name: Remove kolla directory
+  file: 
+    path: {{ item }}
+    state: absent
+  with_items:
+    - "/root/kolla"
+    - "/root/wheels"
+    - "/root/gather-agent"
+    - "/root/networking-ovn"
 
 # 删除virtualenv
 - name: Remove virtualenv

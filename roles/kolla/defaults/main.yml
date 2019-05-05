@@ -1,9 +1,7 @@
 ---
-# 是否编译所有镜像, yes or no
-build_all_images: "no"
-
 # 必须编译的镜像列表
 custom_images: 
+  - base
   - chrony
   - heat
   - cloudalert
@@ -81,7 +79,6 @@ custom_images:
   - openstack-base
   - cephfs-fuse
   - ceph-rgw
-  - base
   - ceph-mon
   - ceph-osd
   - cinder-scheduler

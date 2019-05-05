@@ -36,6 +36,7 @@ Commands:
     bootstrap           Basic environment construction	
     config		Configuring the build environment
     build               Build docker containers
+    compress            Compress docker images
     destroy             Destroy all containers
 EOF
 }
@@ -116,6 +117,10 @@ EOF
 (build)
         ACTION="Build docker containers"
         EXTRA_OPTS="$EXTRA_OPTS -e step=build"
+        ;;
+(compress)
+        ACTION="Build docker containers"
+        EXTRA_OPTS="$EXTRA_OPTS -e step=compress"
         ;;
 (*)     usage
         exit 0

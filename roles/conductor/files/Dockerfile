@@ -10,6 +10,8 @@ RUN yum install -y epel-release git gcc python-devel libevent-devel
 
 RUN yum install -y python  python-pip nginx createrepo
 
+RUN pip install ansible==2.3
+
 RUN pip install --upgrade pip
 
 ADD kolla-ansible /root/kolla-ansible

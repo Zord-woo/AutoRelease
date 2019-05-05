@@ -15,11 +15,5 @@
 # Build custom images
 - name: Build custom images
   command: /root/myenv/bin/kolla-build {{ item }} --config-file=/etc/kolla/kolla-build.conf
-  when: build_all_images == 'no'
   with_items: 
     - "{{ custom_images }}"
-
-# Build all images
-- name: Build all images
-  command: /root/myenv/bin/kolla-build  --config-file=/etc/kolla/kolla-build.conf
-  when: build_all_images == 'yes'

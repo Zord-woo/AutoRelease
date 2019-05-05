@@ -30,3 +30,72 @@
     dest: /root/kolla
     version: nocsys/ocata
     clone: yes
+
+# git clone gather-agent
+- name: Git clone gather-agent form github
+  git:
+    repo: git@github.com:Zord-woo/gather-agent.git
+    dest: /root/gather-agent
+    version: master
+    clone: yes
+
+# git clone alert
+- name: Git clone alert form github
+  git:
+    repo: git@github.com:Zord-woo/alert.git
+    dest: /root/kolla/docker/cloudalert/alert
+    version: master
+    clone: yes
+
+# git clone networking-ovn
+- name: git clone networking-ovn form github
+  git:
+    repo: git@github.com:Zord-woo/networking-ovn.git
+    dest: /root/networking-ovn
+    version: nocsys/ocata
+    clone: yes
+
+# ensure build and wheels dirs exist
+- name: Ensuer build and wheels dirs exist
+  file: 
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "/root/gather-agent/build"
+    - "/root/wheels"
+
+# 创建  Makefile
+- name: Create Makefile
+  command: cmake .. 
+  args:
+    chdir: /root/gather-agent/build
+
+# 编译采集器
+- name: Compile gather-agent
+  make:
+    chdir: /root/gather-agent/build
+
+# 准备networking-ovn的whl包
+- name: Make wheel 
+  command: pip wheel --wheel-dir=/root/wheels .
+  args:
+    chdir: /root/networking-ovn
+
+# 打包wheel
+- name: Compress wheels
+  archive: 
+    path: /root/wheels/networking_ovn-*.whl
+    dest: /root/wheels/networking-ovn-ocata-wheel.tar.gz
+    format: gz
+
+# copy files to kolla
+- name: Copy files to kolla
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+  with_items:
+    - { src: "/root/public.tar", dest: "~/kolla/docker/cloudview/", mode: "0644" }
+    - { src: "/root/pkg_middleware", dest: "~/kolla/docker/middleware/", mode: "0755" }
+    - { src: "/root/gather-agent/build/agent", dest: "~/kolla/docker/gather/", mode: "0755" }
+    - { src: "/root/wheels/networking-ovn-ocata-wheel.tar.gz", dest: "~/kolla/docker/neutron/neutron-server/", mode: "0644" }
