@@ -12,9 +12,6 @@
   pip:
     name: ['pip2pi', 'wheel', 'docker-py']
     state: absent
-#  with_items:
-#    - pip2pi
-#    - wheel
 
 - name: Remove the local yum repository builder
   yum:

@@ -11,7 +11,7 @@
 # Git clone kolla-ansible
 - name: Git clone kolla-ansible from Github
   git:
-    repo: git@github.com:Zord-woo/kolla-ansible.git
+    repo: https://{{ githubuser | urlencode }}:{{ githubpassword.user_input | urlencode | regex_replace('/', '%2F') | regex_replace('@', '%40') }}@github.com/{{ githubuser }}/kolla-ansible.git
     dest: /root/kolla-ansible
     version: nocsys/ocata
     clone: yes
@@ -19,7 +19,7 @@
 # Git clone kolla_packages
 - name: Git clone kolla_packages from Github
   git:
-    repo: git@github.com:Zord-woo/kolla_packages.git
+    repo: https://{{ githubuser | urlencode }}:{{ githubpassword.user_input | urlencode | regex_replace('/', '%2F') | regex_replace('@', '%40') }}@github.com/{{ githubuser }}/kolla_packages.git
     dest: /root/kolla_packages
     version: centos/327
     clone: yes

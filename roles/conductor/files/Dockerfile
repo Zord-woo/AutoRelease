@@ -6,7 +6,7 @@ RUN yum -y update
 
 RUN yum install make  -y
 
-RUN yum install -y epel-release git gcc python-devel libevent-devel
+RUN yum install -y epel-release git gcc python-devel libevent-devel vim
 
 RUN yum install -y python  python-pip nginx createrepo
 
@@ -27,6 +27,8 @@ RUN cp -r etc/kolla /etc
 RUN cp ansible/inventory/* ~/
 
 RUN pip install .
+
+RUN kolla-genpwd
 
 WORKDIR /root
 

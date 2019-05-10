@@ -1,7 +1,24 @@
 ---
 # 必须编译的镜像列表
 custom_images: 
-  - base
+  - openstack-base
+  - gnocchi-base
+  - watcher-base
+  - octavia-base
+  - manila-base
+  - designate-base
+  - murano-base
+  - trove-base
+  - magnum-base
+  - aodh-base
+  - mistral-base
+  - ceilometer-base
+  - panko-base
+  - sahara-base
+  - ironic-base
+  - cloudkitty-base
+  - swift-base
+  - kube-base
   - chrony
   - heat
   - cloudalert
@@ -76,7 +93,6 @@ custom_images:
   - cinder-api
   - cinder-volume
   - cinder-base
-  - openstack-base
   - cephfs-fuse
   - ceph-rgw
   - ceph-mon

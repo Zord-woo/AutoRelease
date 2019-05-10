@@ -1,4 +1,10 @@
 ---
+- block:
+  - name: Prompt
+    pause:
+      prompt: "Enter your github password"
+    register: githubpassword
+
 # 创建 docker.service.d 目录
 - name: Ensure docker.service.d exist
   file:
@@ -26,7 +32,7 @@
 # Before git clone kolla , ssh-key must be added to github
 - name: Git clone kolla from github
   git:
-    repo: git@github.com:Zord-woo/kolla.git
+    repo: https://{{ githubuser | urlencode }}:{{ githubpassword.user_input | urlencode | regex_replace('/', '%2F') | regex_replace('@', '%40') }}@github.com/{{ githubuser }}/kolla.git
     dest: /root/kolla
     version: nocsys/ocata
     clone: yes
@@ -34,7 +40,7 @@
 # git clone gather-agent
 - name: Git clone gather-agent form github
   git:
-    repo: git@github.com:Zord-woo/gather-agent.git
+    repo: https://{{ githubuser | urlencode }}:{{ githubpassword.user_input | urlencode | regex_replace('/', '%2F') | regex_replace('@', '%40') }}@github.com/{{ githubuser }}/gather-agent.git
     dest: /root/gather-agent
     version: master
     clone: yes
@@ -42,15 +48,15 @@
 # git clone alert
 - name: Git clone alert form github
   git:
-    repo: git@github.com:Zord-woo/alert.git
+    repo: https://{{ githubuser | urlencode }}:{{ githubpassword.user_input | urlencode | regex_replace('/', '%2F') | regex_replace('@', '%40') }}@github.com/{{ githubuser }}/alert.git
     dest: /root/kolla/docker/cloudalert/alert
     version: master
     clone: yes
 
 # git clone networking-ovn
-- name: git clone networking-ovn form github
+- name: Git clone networking-ovn form github
   git:
-    repo: git@github.com:Zord-woo/networking-ovn.git
+    repo: https://{{ githubuser | urlencode }}:{{ githubpassword.user_input | urlencode | regex_replace('/', '%2F') | regex_replace('@', '%40') }}@github.com/{{ githubuser }}/networking-ovn.git
     dest: /root/networking-ovn
     version: nocsys/ocata
     clone: yes
