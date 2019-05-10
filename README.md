@@ -24,8 +24,8 @@ SELINUX=disabled
 # cd /root/
 # git clone https://github.com/TeamNocsys/kolla-auto-release.git
 
-### 以下两个文件放置在root目录下
-### 1.前台提供cloudview代码包(名称为"public.tar.gz"或"public.tar")
+### 以下两个文件由前台提供，放置在root目录下
+### 1.cloudview代码包(名称为"public.tar.gz"或"public.tar")
 ### 2.middleware可执行文件(名称为"pkg_middleware")
 
 ### 如果OVS代码有更新请参考补充说明
