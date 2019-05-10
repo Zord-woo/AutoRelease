@@ -1,5 +1,5 @@
 ---
-- block:
+- block: 
   - name: Prompt
     pause:
       prompt: "Enter your github password"
@@ -34,7 +34,7 @@
   git:
     repo: https://{{ githubuser | urlencode }}:{{ githubpassword.user_input | urlencode | regex_replace('/', '%2F') | regex_replace('@', '%40') }}@github.com/{{ githubuser }}/kolla.git
     dest: /root/kolla
-    version: nocsys/ocata
+    version: "{{ kolla_branch }}"
     clone: yes
 
 # git clone gather-agent
@@ -42,7 +42,7 @@
   git:
     repo: https://{{ githubuser | urlencode }}:{{ githubpassword.user_input | urlencode | regex_replace('/', '%2F') | regex_replace('@', '%40') }}@github.com/{{ githubuser }}/gather-agent.git
     dest: /root/gather-agent
-    version: master
+    version: "{{ gather_agent_branch }}"
     clone: yes
 
 # git clone alert
@@ -50,7 +50,7 @@
   git:
     repo: https://{{ githubuser | urlencode }}:{{ githubpassword.user_input | urlencode | regex_replace('/', '%2F') | regex_replace('@', '%40') }}@github.com/{{ githubuser }}/alert.git
     dest: /root/kolla/docker/cloudalert/alert
-    version: master
+    version: "{{ alert_branch }}"
     clone: yes
 
 # git clone networking-ovn
@@ -58,7 +58,7 @@
   git:
     repo: https://{{ githubuser | urlencode }}:{{ githubpassword.user_input | urlencode | regex_replace('/', '%2F') | regex_replace('@', '%40') }}@github.com/{{ githubuser }}/networking-ovn.git
     dest: /root/networking-ovn
-    version: nocsys/ocata
+    version: "{{ networking_ovn_branch }}"
     clone: yes
 
 # ensure build and wheels dirs exist

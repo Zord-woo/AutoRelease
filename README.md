@@ -1,3 +1,13 @@
+#### AutoRelease中clone的项目、对应分支、目录
+Repositories | branch | 对应clone目录 
+---|---|---
+https://github.com/TeamNocsys/alert | master | /root/kolla/docker/cloudalert/
+https://github.com/TeamNocsys/kolla | nocsys/ocata | /root/
+https://github.com/TeamNocsys/kolla-ansible | nocsys/ocata | /root/
+https://github.com/TeamNocsys/kolla_packages | centos/327 | /root/
+https://github.com/TeamNocsys/gather-agent | master | /root
+https://github.com/TeamNocsys/networking-ovn | nocsys/ocata | /root/
+
 #### 准备host
 ```
 # setenforce 0
@@ -12,8 +22,15 @@ SELINUX=disabled
 
 ### clone自动发布流程代码
 # cd /root/
-# git clone https://github.com/Zord-woo/AutoRelease.git
+# git clone https://github.com/TeamNocsys/kolla-auto-release.git
+
+### 以下两个文件放置在root目录下
+### 1.前台提供cloudview代码包(名称为"public.tar.gz"或"public.tar")
+### 2.middleware可执行文件(名称为"pkg_middleware")
+
+### 如果OVS代码有更新请参考补充说明
 ```
+
 #### 配置globals.yml
 ```
 # mkdir -p /etc/jarvis
@@ -41,32 +58,50 @@ namespace: "nocsys"
 
 # github username,用于clone项目
 githubuser: "Zord-woo"
+
+# kolla项目分支
+kolla_branch: "nocsys/ocata"
+
+# kolla-ansible分支
+kolla_ansible_branch: "nocsys/ocata"
+
+# alert 分支
+alert_branch: "master"
+
+# gather-agent 分支
+gather_agent_branch: "master"
+
+# kolla_packages分支
+kolla_packages_branch: "centos/327"
+
+# networking-ovn分支
+networking_ovn_branch: "nocsys/ocata"
 ```
 
 #### 执行代码
 ```
-# cd AutoRelease
+# cd kolla-auto-release
 
 ### 查看使用帮助
-# ./jarvis -h
+# ./kolla-auto-release -h
 
 ### 构建基础环境
-# ./jarvis -c /etc/jarvis bootstrap
+# ./kolla-auto-release -c /etc/jarvis bootstrap
 
 ### 执行config，此处会提示Enter your github password, 与上面githubuser对应的密码
-# ./jarvis -c /etc/jarvis config
+# ./kolla-auto-release -c /etc/jarvis config
 
 ### 执行build,创建可执行kolla-ansible命令的镜像和kolla项目镜像
-# ./jarvis -c /etc/jarvis build
+# ./kolla-auto-release -c /etc/jarvis build
 
 ### 执行compress，打包kolla镜像和/opt/registry/docker中所有镜像
-# ./jarvis -c /etc/jarvis compress
+# ./kolla-auto-release -c /etc/jarvis compress
 # ls -l /root/
 kolla.tar 
 centos-binary-registry-ocata-1.0.8.tar.gz
 
 ### 删除所有操作
-# ./jarvis -c /etc/jarvis destroy  --yes-i-really-really-mean-it
+# ./kolla-auto-release -c /etc/jarvis destroy  --yes-i-really-really-mean-it
 ```
 
 ## 部署OpenStack
@@ -186,3 +221,36 @@ keystone_admin_password: admin
 ### 安装openstack
 # kolla-ansible -i multinode deploy
 ```
+
+## 补充说明
+#### 手动执行ovs代码更新
+```
+# git clone https://github.com/TeamNocsys/ovs.git
+# yum install -y epel-release
+# yum install -y autoconf automake libtool gcc clang openssl-devel libcap-ng-devel rpm-build yum-utils python-pip libpcap-devel numactl-devel
+# pip install six
+### 编译ovs
+# cd ovs
+# ./boot.sh
+# ./configure --prefix=/usr --localstatedir=/var --sysconfdir=/etc --with-linux=/lib/modules/$(uname -r)/build
+# make rpm-fedora RPMBUILD_OPT="--without check"
+### 如果缺失依赖则只需
+# yum-builddep rhel/openvswitch-fedora.spec
+### 编译ovs内核模块
+# make rpm-fedora-kmod
+
+### 更新kolla_packages项目
+# git clone https://github.com/TeamNocsys/kolla_packages.git
+### 创建新分支，并将上面编译出的openvswitch-*.rpm软件包拷贝到kolla_packages目录并提交
+# cd kolla_packages
+# git branch centos/xxx
+
+### 更新离线YUM源
+# cd /root/kolla
+### 备份离线源
+# tar acf 2019-5-xx.tar.gz RPMS
+### 删除旧的ovs软件，并将上面编译出的openvswitch-*.rpm软件包拷贝到RPMS目录，然后重启YUM源
+# rm -rf RPMS/openvswitch-*.rpm
+# ./start_myrepo
+```
+
